@@ -19,7 +19,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}  # GCP 項目 ID
-          service_account_key: ${{ secrets.GCP_SA_KEY }}  # 服務帳戶金鑰
+          service_account_key: ${{ secrets.CI_CD_TEST }}  # 服務帳戶金鑰
 
       - name: Deploy to GCP (e.g., Compute Engine)
         run: |
