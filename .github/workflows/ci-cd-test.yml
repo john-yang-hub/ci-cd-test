@@ -1,0 +1,27 @@
+name: Deploy to GCP when index.html is modified
+
+on:
+  push:
+    branches:
+      - master  # 當 main 分支有更新時觸發
+    paths:
+      - 'var/www/index.html'  # 當此文件被修改時觸發
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up GCP credentials
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}  # GCP 項目 ID
+          service_account_key: ${{ secrets.GCP_SA_KEY }}  # 服務帳戶金鑰
+
+      - name: Deploy to GCP (e.g., Compute Engine)
+        run: |
+          echo "Deploying index.html to GCP Compute Engine"
+          scp -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no var/www/index.html user@your-instance-ip:/var/www/index.html
