@@ -24,4 +24,4 @@ jobs:
       - name: Deploy to GCP (e.g., Compute Engine)
         run: |
           echo "Deploying index.html to GCP Compute Engine"
-          scp -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no var/www/index.html testGCP@35.221.185.100:/var/www/index.html
+          scp -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no /home/git_test/.github/workflows/index.html testGCP@35.221.185.100:/var/www/index.html
