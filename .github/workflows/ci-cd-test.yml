@@ -5,7 +5,7 @@ on:
     branches:
       - master  # 當 main 分支有更新時觸發
     paths:
-      - '/home/git_test/index.html'  # 當此文件被修改時觸發
+      - '/var/www/index.html'  # 當此文件被修改時觸發
 
 jobs:
   deploy:
