@@ -23,8 +23,8 @@ jobs:
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}  # GCP 項目 ID
           service_account_key: ${{ secrets.CI_CD_TEST }}  # 服務帳戶金鑰
-
+            
       - name: Deploy to GCP (e.g., Compute Engine)
         run: |
           echo "Deploying index.html to GCP Compute Engine"
-          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no /var/www/index.html testGCP@35.221.185.100:/var/www/index.html
+          scp -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no /var/www/index.html testGCP@{{ secrets.GCP_VM_IP }}:/var/www/index.html
