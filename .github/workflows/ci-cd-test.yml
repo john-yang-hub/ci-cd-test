@@ -5,7 +5,7 @@ on:
     branches:
       - master  # 當 main 分支有更新時觸發
     paths:
-      - 'var/www/index.html'  # 當此文件被修改時觸發
+      - '/home/git_test/index.html'  # 當此文件被修改時觸發
 
 jobs:
   deploy:
@@ -14,7 +14,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+       
+      - name: Check source file
+        run: ls -al var/www/index.html
+          
       - name: Set up GCP credentials
         uses: google-github-actions/setup-gcloud@v1
         with:
@@ -24,4 +27,4 @@ jobs:
       - name: Deploy to GCP (e.g., Compute Engine)
         run: |
           echo "Deploying index.html to GCP Compute Engine"
-          scp -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no /home/git_test/.github/workflows/index.html testGCP@35.221.185.100:/var/www/index.html
+          scp -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no /var/www/index.html testGCP@35.221.185.100:/var/www/index.html
