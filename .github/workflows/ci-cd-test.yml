@@ -36,4 +36,4 @@ jobs:
       - name: Deploy to GCP (e.g., Compute Engine)
         run: |
           echo "Deploying index.html to GCP Compute Engine"
-          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no /var/www/index.html cicdtest@${{ secrets.GCP_VM_IP }}:/var/www/html/index.html
+          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no var/www/index.html cicdtest@${{ secrets.GCP_VM_IP }}:/var/www/html/index.html
