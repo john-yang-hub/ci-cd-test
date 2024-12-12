@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - master  # 當 main 分支有更新時觸發
-    paths:
-      - 'var/www/index.html'  # 當此文件被修改時觸發
+      - release  
 
 jobs:
   deploy:
@@ -14,15 +13,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-       
-      - name: Check source file
-        run: ls -al var/www/index.html
-      - name: Modify index.html dynamically
+      
+      - name: Conditionally modify index.html
+        if: ${{ github.ref_name != 'release' }}
         run: |
           echo "<!-- Deployed at $(date) -->" >> var/www/index.html
-          echo "<p>Deployed from GitHub Actions at $(date)</p>" >> var/www/index.html
-          echo "Modified index.html content:"
-          cat var/www/index.html
+          echo "<p>Deployed from branch '${{ github.ref_name }}' at $(date)</p>" >> var/www/index.html
+          echo "Modified index.html content for branch '${{ github.ref_name }}':"
+          cat var/www/index.html    
+
     
       - name: Set up GCP credentials
         uses: google-github-actions/setup-gcloud@v1
