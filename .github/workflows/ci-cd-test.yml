@@ -17,7 +17,13 @@ jobs:
        
       - name: Check source file
         run: ls -al var/www/index.html
-          
+      - name: Modify index.html dynamically
+        run: |
+          echo "<!-- Deployed at $(date) -->" >> var/www/index.html
+          echo "<p>Deployed from GitHub Actions at $(date)</p>" >> var/www/index.html
+          echo "Modified index.html content:"
+          cat var/www/index.html
+    
       - name: Set up GCP credentials
         uses: google-github-actions/setup-gcloud@v1
         with:
