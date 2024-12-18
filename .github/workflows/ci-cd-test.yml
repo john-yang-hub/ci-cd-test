@@ -3,7 +3,7 @@ name: Deploy to GCP when index.html is modified
 on:
   push:
     branches:
-      - master  # 當 main 分支有更新時觸發
+      - master  # 當 master 分支有更新時觸發
       - release  
 
 jobs:
@@ -17,6 +17,13 @@ jobs:
       - name: Conditionally modify index.html
         if: ${{ github.ref_name != 'release' }}
         run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d '{
+                 "text": "部署開始：分支 `master` 正在部署至 GCP..."
+                   }' \
+               ${{ secrets.WEBHOOK_URL }}
+
           echo "<!-- Deployed at $(date) -->" >> var/www/index.html
           echo "<p>Deployed from branch '${{ github.ref_name }}' at $(date)</p>" >> var/www/index.html
           echo "Modified index.html content for branch '${{ github.ref_name }}':"
@@ -42,3 +49,14 @@ jobs:
         run: |
           echo "Deploying index.html to GCP Compute Engine"
           sudo scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no var/www/index.html cicdtest@${{ secrets.GCP_VM_IP }}:/var/www/html/index.html
+
+      - name: Send Deployment Completion Notification (Master Branch Only)
+        if: ${{ github.ref_name == 'master' }}
+        run: |
+          DEPLOY_DATE=$(date "+%Y年%m月%d日")
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "{
+                 \"text\": \"部署完成：分支 \`master\` 已成功部署至 GCP！完成時間：${DEPLOY_DATE}\"
+               }" \
+               ${{ secrets.WEBHOOK_URL }}          
