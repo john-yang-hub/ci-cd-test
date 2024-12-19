@@ -52,7 +52,8 @@ jobs:
 
       - name: Send Deployment Completion Notification (Master Branch Only)
         if: ${{ github.ref_name == 'master' }}
-        TZ: Asia/Taipei  # 設置時區為 UTC+8
+        env:  
+          TZ: Asia/Taipei  # 設置時區為 UTC+8
         run: |
           curl -H "Content-Type: application/json" \
                -X POST \
