@@ -25,9 +25,7 @@ jobs:
                ${{ secrets.WEBHOOK_URL }}
 
           echo "<!-- Deployed at $(date) -->" >> var/www/index.html
-          echo "<p>Deployed from branch '${{ github.ref_name }}' at $(date)</p>" >> var/www/index.html
-          echo "Modified index.html content for branch '${{ github.ref_name }}':"
-          cat var/www/index.html    
+          echo "<p>Deployed from branch '${{ github.ref_name }}' at $(date)</p>" >> var/www/index.html    
 
     
       - name: Set up GCP credentials
