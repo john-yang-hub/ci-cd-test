@@ -58,6 +58,6 @@ jobs:
           curl -H "Content-Type: application/json" \
                -X POST \
                -d "{
-                 \"text\": \"部署完成：分支 \`master\` 已成功部署至 GCP！完成時間：$(date)\"
+                 \"text\": \"部署完成：分支 \`master\` 已成功部署至 GCP！\\n完成時間：$(date)\"
                }" \
                ${{ secrets.WEBHOOK_URL }}          
